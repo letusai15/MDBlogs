@@ -1,0 +1,12 @@
+{
+  "name": "postgres-query-optimization",
+  "version": "1.0.0",
+  "description": "Seq scan vs index scan vs CTE materialization — timing simulation with 10M rows",
+  "scripts": {
+    "start": "npx tsx src/index.ts"
+  },
+  "dependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}
