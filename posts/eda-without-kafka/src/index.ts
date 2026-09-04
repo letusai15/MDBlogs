@@ -1,46 +1,32 @@
-import { bus } from './EventBus'
+// Boot all services (registering their bus.on() subscriptions)
+import './services/InventoryService'
+import './services/EmailService'
+import './services/PaymentService'
+import './services/FulfillmentService'
+import './services/AnalyticsService'
 
-// ── Domain events ────────────────────────────────────────────────────────────
-interface OrderPlaced    { orderId: string; amount: number; customer: string }
-interface PaymentProcessed { orderId: string; status: 'ok' | 'failed' }
+import { placeOrder, cancelOrder } from './services/OrderService'
+import { printStats }             from './services/AnalyticsService'
+import { runOutboxDemo }          from './outbox/OutboxDemo'
 
-// ── Subscribers (independent, no knowledge of each other) ────────────────────
-bus.on<OrderPlaced>('order.placed', async ({ orderId, customer }) => {
-  console.log(`[Inventory]   reserving stock for order ${orderId}`)
-})
+console.log('═══════════════════════════════════════════════════════════════')
+console.log('  EDA without Kafka — two patterns in action')
+console.log('  Blog post: monalisadas-knowme.vercel.app')
+console.log('═══════════════════════════════════════════════════════════════')
 
-bus.on<OrderPlaced>('order.placed', async ({ orderId, amount, customer }) => {
-  console.log(`[Email]       sending confirmation to ${customer} for £${amount}`)
-})
+console.log('\n─── Pattern 1: In-process typed EventBus ─────────────────────\n')
+console.log('Five independent services. Zero direct calls between them.\n')
 
-bus.on<PaymentProcessed>('payment.processed', async ({ orderId, status }) => {
-  if (status === 'ok') {
-    console.log(`[Fulfillment] dispatching order ${orderId}`)
-  } else {
-    console.log(`[Fulfillment] cancelling order ${orderId} — payment failed`)
-  }
-})
+placeOrder('alice',   120)   // payment ok   → dispatched
+placeOrder('bob',     750)   // payment fail → cancelled + email alert
+placeOrder('carol',   299)   // payment ok   → dispatched
+cancelOrder('ORD-002', 'customer requested cancellation')
 
-// ── Producer (knows only about events, not subscribers) ──────────────────────
-async function placeOrder(customer: string, amount: number) {
-  const orderId = `ORD-${Date.now()}`
-  console.log(`\n→ Placing order: ${orderId} (${customer}, £${amount})`)
-  await bus.emit<OrderPlaced>('order.placed', { orderId, amount, customer })
+printStats()
 
-  // Payments over £500 fail in this demo
-  const status: 'ok' | 'failed' = amount < 500 ? 'ok' : 'failed'
-  console.log(`→ Payment ${status}: ${orderId}`)
-  await bus.emit<PaymentProcessed>('payment.processed', { orderId, status })
-}
+runOutboxDemo()
 
-// ── Run the demo ─────────────────────────────────────────────────────────────
-;(async () => {
-  console.log('=== EDA without Kafka — in-process EventBus demo ===\n')
-  console.log('Three independent subscribers listen to the same events.')
-  console.log('The producer knows nothing about who is listening.\n')
-
-  await placeOrder('Alice', 120)   // succeeds
-  await placeOrder('Bob',   750)   // payment fails
-
-  console.log('\n=== Done. Try adding a new subscriber in EventBus.ts! ===')
-})()
+console.log('\n═══════════════════════════════════════════════════════════════')
+console.log('  Try it: add a new bus.on() in any service file.')
+console.log('  The other services do not change at all.')
+console.log('═══════════════════════════════════════════════════════════════\n')
