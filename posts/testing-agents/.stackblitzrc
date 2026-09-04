@@ -1,3 +1,4 @@
 {
-  "startCommand": "npm install && npm start"
+  "startCommand": "npm start",
+  "openFiles": ["src/index.ts"]
 }
