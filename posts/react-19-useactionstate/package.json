@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "State machine demo for the useActionState pattern from React 19",
   "scripts": {
-    "start": "npx tsx src/index.ts"
+    "start": "tsx src/index.ts",
+    "dev": "tsx src/index.ts"
   },
   "dependencies": {
     "tsx": "^4.7.0",

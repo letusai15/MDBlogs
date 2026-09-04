@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Four evaluation patterns for non-deterministic AI agents",
   "scripts": {
-    "start": "npx tsx src/index.ts"
+    "start": "tsx src/index.ts",
+    "dev": "tsx src/index.ts"
   },
   "dependencies": {
     "tsx": "^4.7.0",

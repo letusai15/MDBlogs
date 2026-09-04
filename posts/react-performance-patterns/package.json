@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Re-render count simulation — colocated state vs lifted state vs refs",
   "scripts": {
-    "start": "npx tsx src/index.ts"
+    "start": "tsx src/index.ts",
+    "dev": "tsx src/index.ts"
   },
   "dependencies": {
     "tsx": "^4.7.0",

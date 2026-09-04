@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Four production patterns for agentic systems: retry, fallback, loop detection, observability",
   "scripts": {
-    "start": "npx tsx src/index.ts"
+    "start": "tsx src/index.ts",
+    "dev": "tsx src/index.ts"
   },
   "dependencies": {
     "tsx": "^4.7.0",
