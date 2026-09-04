@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Container Queries demo</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; }
+  body { font-family: system-ui, sans-serif; padding: 2rem; background: #0f0f0f; color: #e5e5e5; }
+  h1 { font-size: 1.25rem; margin-bottom: 1.5rem; color: #a0a0a0; }
+
+  /* Resize this wrapper to see the card respond */
+  .demo-wrapper {
+    resize: horizontal;
+    overflow: auto;
+    border: 1px dashed #444;
+    padding: 1rem;
+    min-width: 200px;
+    max-width: 100%;
+    margin-bottom: 2rem;
+    background: #1a1a1a;
+  }
+  .demo-wrapper > p {
+    font-size: 0.75rem;
+    color: #666;
+    margin-bottom: 1rem;
+  }
+
+  /* Step 1: mark the container */
+  .card-wrapper {
+    container-type: inline-size;
+    container-name: card;
+  }
+
+  /* Default: stacked layout (narrow container) */
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    background: #222;
+    border-radius: 8px;
+    border: 1px solid #333;
+  }
+
+  .card-image {
+    width: 100%;
+    height: 120px;
+    background: linear-gradient(135deg, #2a4a7a, #4a2a7a);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    font-size: 0.75rem;
+  }
+
+  .card-body { flex: 1; }
+
+  .card-title {
+    /* cqw: scales with container width, not screen width */
+    font-size: clamp(0.9rem, 4cqw, 1.4rem);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-text {
+    font-size: clamp(0.75rem, 2.5cqw, 0.875rem);
+    color: #999;
+    line-height: 1.5;
+  }
+
+  /* Step 2: container query fires when .card-wrapper is >= 360px */
+  @container card (min-width: 360px) {
+    .card {
+      flex-direction: row; /* side-by-side */
+      align-items: center;
+    }
+    .card-image {
+      width: 140px;
+      height: 100%;
+      min-height: 80px;
+      flex-shrink: 0;
+    }
+  }
+
+  .hint {
+    font-size: 0.8rem;
+    color: #555;
+    margin-top: 0.5rem;
+  }
+
+  code {
+    background: #1a1a1a;
+    padding: 0.1em 0.4em;
+    border-radius: 3px;
+    font-size: 0.85em;
+    color: #7dd3fc;
+  }
+</style>
+</head>
+<body>
+<h1>Container Queries demo</h1>
+
+<div class="demo-wrapper">
+  <p>Drag the right edge to resize this box. The card responds to its container, not the viewport.</p>
+  <div class="card-wrapper">
+    <div class="card">
+      <div class="card-image">image</div>
+      <div class="card-body">
+        <p class="card-title">Event-driven architecture without Kafka</p>
+        <p class="card-text">
+          Lightweight patterns that scale with your team — not with your infrastructure budget.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="hint">
+  At <code>&lt; 360px</code>: stacked layout.<br>
+  At <code>&ge; 360px</code>: image moves left, text flows right.<br>
+  The container rule <code>@container card (min-width: 360px)</code> fires when the
+  <code>.card-wrapper</code> div is wide enough — not when the screen is.
+</p>
+</body>
+</html>

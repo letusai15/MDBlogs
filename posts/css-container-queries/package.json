@@ -1,0 +1,11 @@
+{
+  "name": "css-container-queries",
+  "version": "1.0.0",
+  "description": "Container queries demo — resize the wrapper and watch the card respond",
+  "scripts": {
+    "start": "npx serve src -l 3000"
+  },
+  "dependencies": {
+    "serve": "^14.2.1"
+  }
+}
