@@ -32,6 +32,6 @@ Each folder is a self-contained project with its own `package.json`, source file
 
 I write the way I'd explain things to a colleague over coffee — here's the problem, here's how I'd solve it, here's why. The code in each sandbox is meant to be read, not just run. Every file has comments that explain the decision behind it, not just the syntax.
 
-If something doesn't make sense, find me on LinkedIn or DEV.to — links on the blog.
+If something doesn't make sense, find me on [LinkedIn](https://www.linkedin.com/in/dmonalisa/) — I read every message.
 
 — Monalisa
