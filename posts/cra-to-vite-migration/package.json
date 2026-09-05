@@ -1,0 +1,14 @@
+{
+  "name": "cra-to-vite-migration",
+  "version": "1.0.0",
+  "description": "CRA → Vite migration map — companion sandbox for the blog post",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "dev": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "tsx": "^4.7.0",
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  }
+}
